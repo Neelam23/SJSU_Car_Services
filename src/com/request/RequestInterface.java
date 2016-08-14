@@ -1,4 +1,4 @@
-package requestclass;
+package com.request;
 
 
 public interface RequestInterface {

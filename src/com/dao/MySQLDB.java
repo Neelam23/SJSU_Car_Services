@@ -1,7 +1,7 @@
 package com.dao;
 import java.sql.*;
 import java.util.Scanner;
-
+import com.request.*;
  
 public class MySQLDB {
 	
@@ -48,11 +48,7 @@ public class MySQLDB {
     
     
     
-    
-    
     public void signIn(String email, String password){
-    	
-    	RequestManager reqManager = new RequestManager();
     	try{
     		PreparedStatement pst = conn.prepareStatement("Select * from members where email=? and password=?");
             pst.setString(1, email);
@@ -74,10 +70,11 @@ public class MySQLDB {
                 int selection = scanner.nextInt();
 	        	switch (selection) {
 	            case 1:  
+	            	   RequestManager reqManager = new RequestManager(email);
 		       	       if(Category.equals("A")){
-		       	    	reqManager.
+		       	    	reqManager.manageRide();
 		       	       }else if(Category.equals("B")){
-		       	    	   
+		       	    	reqManager.manageParking(); 
 		       	       }
 		                break;
 	             case 2:  
@@ -95,6 +92,14 @@ public class MySQLDB {
     	}catch (SQLException e) {
             e.printStackTrace();
         }
+    	
+    }
+    
+    
+    
+    
+    public void sendRideRequest(RideRequest reqObj){
+    	System.out.println(reqObj.pickUpLocation);
     	
     }
   

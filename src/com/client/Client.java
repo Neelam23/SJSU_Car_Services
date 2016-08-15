@@ -1,6 +1,7 @@
 package com.client;
 import java.sql.Connection;
 import com.dao.*;
+import com.request.RequestManager;
 
 import java.util.Scanner; 
 
@@ -14,11 +15,9 @@ public class Client {
 		MySQLDB db= new MySQLDB();
 		try{
 			db.testConnection();
-		}catch(ClassNotFoundException e) {
-			
+		}catch(ClassNotFoundException e) {	
             System.out.println("ClassNotFoundException: "+e.getMessage());
-		}
-		
+            }
 		
 		System.out.println("*********************************************************");
 		System.out.println("*********************************************************");
@@ -26,67 +25,97 @@ public class Client {
 		System.out.println("*********************************************************");
 		System.out.println("*********************************************************");
 		System.out.println();
-		System.out.println("Please Select from Following options:\n"+"1. SignUp"+"\n2. SignIn"+"\n3. Admin SignIn"+"\n4. Exit");
+		System.out.println("Please Select from Following options:\n"+"1. Member SignUp"+"\n2. Member SignIn"+"\n3. Admin SignIn"+"\n4. Exit");
 		
 		Scanner scanner = new Scanner(System.in);
-		//scanner.useDelimiter("\\n");
 		int selection = scanner.nextInt();
 		switch (selection) {
         case 1:  
+        	    //call member classes
         	     db.signUp();
                  break;
+                 
         case 2:  
-	        	System.out.print("Enter your Email-id:		");
+        	
+	        	System.out.print("Enter your Email-id:	");
 	            email = scanner.next();
-	            
-	            System.out.print("Enter your Password:		");
+	            System.out.print("Enter your Password:	");
 	            password = scanner.next();
-	            db.signIn(email, password);
+	            
+	            String Category= db.signIn(email, password);
+	            if(Category.length()!= 0){
+	            	System.out.println("\nPlease select from following option:");
+	            	 if(Category.equals("A")){
+	                 	
+	                 	System.out.println("1. Request a ride");
+	                    } else if(Category.equals("B")){
+	                 	   System.out.println("1. Request a Parking");
+	                 	   }
+	                 System.out.println("2. Exit");
+	            }
+               
+                RequestManager reqManager = new RequestManager(email,db);
+                int selection2 = scanner.nextInt();
+	        	switch (selection2) {
+		            case 1:  
+		       	       if(Category.equals("A")){
+		       	    	reqManager.manageRide();
+		       	        }else if(Category.equals("B")){
+		       	    	   		reqManager.manageParking(); 
+		       	       		  }
+		                break;
+		             case 2:  
+			        	 System.out.print("Existed!!");
+		                 break;
+		             default:  
+		 	    		 System.out.print("Wrong Choice, please try again");
+		 	             break;
+	             } 
                 break;
+                
         case 3: 
-	        	System.out.print("Enter your Email-id:		");
+	        	System.out.print("Enter your Email-id:	");
 	            email = scanner.next();
-	            
-	            System.out.print("Enter your Password:		");
+	            System.out.print("Enter your Password:	");
 	            password = scanner.next();
-	            db.signIn(email, password);
+	            
+	            int val= db.adminSignIn(email, password);
+	            if(val==1){
+	            	System.out.println("\nPlease Select from following Options");
+                	System.out.println("1. Start Schedule Request");
+                	System.out.println("2. Dispatch Ride Request");
+                    System.out.println("2. Exit");
+	            }else{
+	            	System.out.println("Login Error");
+	            	}
+	            
+                int selection3 = scanner.nextInt();
+                switch (selection3) {
+		            case 1:  
+		            	 System.out.println("start scheduling!");
+			       	    //	manageSchedule();
+			                break;
+		             case 2:  
+		            	 System.out.println("dispatch ride- call ride client!");
+			        	//dispatch ride
+		                    break;
+		                    
+		             case 3:
+	    	               System.out.print("Existed!!");
+		            	   break;
+		             default:  
+		 	    		 System.out.print("Wrong Choice, please try again");
+		 	             break;
+		         } 
+	            
                  break;
         case 4:  
-        		System.out.print("Exited");
+        		System.out.print("Exited!!");
                  break;
                  
         default:  
 	    		System.out.print("Wrong Choice, please try again");
 	             break;
 		}
-//		 if (selection == 1) {                         //signup
-//			 //System.out.println("Enter :\t");
-//             
-//			 db.signUp();
-//         }
-//         else if (selection == 2) {						//login
-//        	 
-//        	 System.out.print("Enter your Email-id:		");
-//             email = scanner.next();
-//             
-//             System.out.print("Enter your Password:		");
-//             password = scanner.next();
-//             db.signIn(email, password);
-//	            
-////             System.out.println("\nYour sentence:\t" + email);
-//             //System.out.println("Your Password:\t" + password);
-//             
-//         } 
-//         else if (selection == 3) {		
-//				
-//         }
-//         else if (selection == 4) {		
-//        	 break;
-//				
-//         }
-//         else{
-//        	 System.out.println("Wrong selection");
-//        	 break;
-//         }
 	}
 }

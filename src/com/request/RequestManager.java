@@ -6,11 +6,13 @@ public class RequestManager {
     private RideRequest rideReq;
     private ParkingRequest parkingReq;
     public String email;
+    MySQLDB db;
         
-    public RequestManager(String email){
+    public RequestManager(String email, MySQLDB db){
       this.email= email;
-      rideReq = new RideRequest(email);
-      parkingReq = new ParkingRequest(email);
+      this.db= db;
+      rideReq = new RideRequest(email, this.db);
+      parkingReq = new ParkingRequest(email,this.db);
     }
         
     public void manageRide(){

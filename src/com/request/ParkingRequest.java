@@ -43,7 +43,7 @@ public class ParkingRequest implements RequestInterface{
 	        System.out.println("\nPlease fill in the information below: ");
 	        
 	        
-	        System.out.print("Enter Parking Location:(sf, sj, la):  ");
+	        System.out.print("Enter Parking Location(sf, sj, la):  ");
 	        parkingLocation = input.readLine();
 //	        System.out.print("Enter Drop off Location(sf, sj, la):  ");
 //	        dropOffLocation = input.readLine();

@@ -82,9 +82,11 @@ public class Client {
 	            int val= db.adminSignIn(email, password);
 	            if(val==1){
 	            	System.out.println("\nPlease Select from following Options");
-                	System.out.println("1. Start Schedule Request");
-                	System.out.println("2. Dispatch Ride Request");
-                    System.out.println("2. Exit");
+                	System.out.println("1. Start Schedule Ride");
+                	System.out.println("2. Start Schedule Parking");
+                	System.out.println("3. Dispatch Ride Request");
+                	System.out.println("4. Start Parking");
+                    System.out.println("5. Exit");
 	            }else{
 	            	System.out.println("Login Error");
 	            	}
@@ -92,15 +94,20 @@ public class Client {
                 int selection3 = scanner.nextInt();
                 switch (selection3) {
 		            case 1:  
-		            	 System.out.println("start scheduling!");
+		            	 System.out.println("Start Schedule Parking!");
 			       	    //	manageSchedule();
 			                break;
 		             case 2:  
-		            	 System.out.println("dispatch ride- call ride client!");
+		            	 System.out.println("Start Schedule Parking");
 			        	//dispatch ride
-		                    break;
-		                    
+		                    break;  
 		             case 3:
+	    	               System.out.print("Dispatch Ride Request");
+		            	   break;
+		             case 4:
+	    	               System.out.print("Start Parking!");
+		            	   break;
+		             case 5:
 	    	               System.out.print("Existed!!");
 		            	   break;
 		             default:  

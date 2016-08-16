@@ -11,12 +11,11 @@ package com.payment;
  */
 public class Credit implements PaymentType
 {
-
+	public void cardPayment(){
+		System.out.println("Rider has been charged with Credit card payment");
+	}
    
-    public void fillType() {
-        System.out.println("credit card details");
-    }
-    
-    
-    
 }
+    
+    
+    

@@ -11,14 +11,12 @@ package com.payment;
  */
 public class DriverPayment extends PaymentAccount {
     
-    
-    
-    public void payit() {
-        System.out.print("Account filled with");
-        payment.fillType();
-    }
+	 public DriverPayment(PaymentType paty) {
+			super(paty);
+		//this is reardknncf booking advance
+		}
 
-    public void pay() {
-        System.out.println("Driver has been charged");
-    }
+		public void payment() {
+	        cardPayment();
+	    }
 }

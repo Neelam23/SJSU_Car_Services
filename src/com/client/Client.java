@@ -1,4 +1,5 @@
 package com.client;
+import com.schedule.*;
 import java.sql.Connection;
 import com.dao.*;
 import com.request.RequestManager;
@@ -32,7 +33,7 @@ public class Client {
 		switch (selection) {
         case 1:  
         	    //call member classes
-        	     db.signUp();
+        	     
                  break;
                  
         case 2:  
@@ -92,14 +93,18 @@ public class Client {
 	            	}
 	            
                 int selection3 = scanner.nextInt();
+                SchedulingContext schedulingContext;
                 switch (selection3) {
 		            case 1:  
 		            	 System.out.println("Start Schedule Parking!");
 			       	    //	manageSchedule();
+		            	 schedulingContext = new SchedulingContext(new ScheduleRide()); 
+		                 schedulingContext.executeStrategy(db);
 			                break;
 		             case 2:  
 		            	 System.out.println("Start Schedule Parking");
-			        	//dispatch ride
+		            	 schedulingContext = new SchedulingContext(new ScheduleParking()); 
+		                 schedulingContext.executeStrategy(db);
 		                    break;  
 		             case 3:
 	    	               System.out.print("Dispatch Ride Request");

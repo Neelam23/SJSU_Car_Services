@@ -1,6 +1,6 @@
 package com.dao;
 import java.sql.*;
-import java.util.Scanner;
+import java.util.*;
 import com.request.*;
  
 public class MySQLDB {
@@ -27,8 +27,56 @@ public class MySQLDB {
     }
   
   
+  public void registerMember(String insertString) {
+      //int i = 1;
+      //String j;
+        try {
+            //String query = " insert into members (id,category,name,email,password,address,creditCard,debitCard,availablity_status)" + " values ( ?,?, ?, ?, ?,?,?)";
+            //INSERT INTO sys.members(id,category,name,email,password,address,creditCard,debitCard,availablity_status) VALUES (3,'A','Test','test@sjsu.edu','password',null,565657765,null,null);
+            PreparedStatement pst = conn.prepareStatement(insertString);
+            /*pst.setInt(1, i);
+            pst.setString(2, rider.Category);
+            pst.setString(3, rider.name);
+            pst.setString(4, rider.email);
+            pst.setString(5, rider.password);
+            pst.setInt(6, rider.creditCard);
+            pst.setNull(7, rider.debitCard);
+            pst.setNull(8, 0);*/
+            pst.execute();
+
+            System.out.println("You have been successfully registered");
+
+        } catch (SQLException e) {
+            System.out.println("Error occured during registration. Please try again later");
+            e.printStackTrace();
+        }
+    }
+
   
+  public void registerVehicle(String insertString) {
+        try {
+            PreparedStatement pst = conn.prepareStatement(insertString);
+            pst.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error occured during vehicle registration. Please try again later");
+            e.printStackTrace();
+        }
+    }
+    
   
+  public void registerGarage(String insertString) {
+        try {
+            PreparedStatement pst = conn.prepareStatement(insertString);
+            pst.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Error occured during vehicle registration. Please try again later");
+            e.printStackTrace();
+        }
+    }
+  
+   
   public void signUp(){
     	try{
     		PreparedStatement pst = conn.prepareStatement("INSERT INTO members (id,category, name, email, password, address, creditCard, debitCard, travelCard) VALUES(2 ,'A','Neelam', 'neelam@sjsu.edu', 'sdscdc' ,'','sdfg','dgsag','gfd');");
@@ -47,9 +95,6 @@ public class MySQLDB {
     	
     }
     
-    
-    
-  
   
   public String signIn(String email, String password){
     	
@@ -166,6 +211,90 @@ public class MySQLDB {
    	    	e.printStackTrace();  
    	    }
    }
+   
+   
+   
+   
+   public List<String> scheduleRide(){
+	   List<String> emails= new ArrayList<String>();
+    	try{
+		PreparedStatement pst = conn.prepareStatement("Select * from riderequests");
+           ResultSet rs = pst.executeQuery();
+           
+           while (rs.next()) {
+               
+               int ID= rs.getInt("id");
+               String email= rs.getString("rider_email"); //neelam
+               emails.add(email);
+//               int clientID = rs.getInt("client_id");
+//               String startTime = rs.getString("start_time");
+//               String endTime = rs.getString("end_time");
+               String startingLocation = rs.getString("starting_location");
+//               String destinationLocation = rs.getString("destination_location");  
+                 try{
+                       PreparedStatement pst1 = conn.prepareStatement("Select * from driver where status = 'A' and location = "+startingLocation+"");
+                       ResultSet rs1 = pst1.executeQuery();
+                       if (rs1.next()) {
+                           int driverID= rs1.getInt("driver_id");
+                           try{
+                           PreparedStatement pst2 = conn.prepareStatement("update schedule set driver_id = "+driverID+", ride_status = 'C' where id = "+ID+"");
+                           pst2.executeQuery();
+                           PreparedStatement pst3 = conn.prepareStatement("update driver set status = 'A' where driver_id = "+driverID+"");
+                           pst3.executeQuery();
+                           }catch (SQLException e) {
+                            e.printStackTrace();
+                       }                 
+                       }
+               }catch (SQLException e) {
+               e.printStackTrace();             
+               }
+	           }//while end
+	           }catch (SQLException e) {
+	       e.printStackTrace();
+	      
+	   }
+	   return emails;
+	}
+
+	public void scheduleParking(){
+	     	try{
+			PreparedStatement pst = conn.prepareStatement("Select * from schedule where parking_status is NULL");
+	           ResultSet rs = pst.executeQuery();
+	           while (rs.next()) {
+	               
+	               int ID= rs.getInt("id");
+	               String destinationLocation = rs.getString("destination_location"); 
+	               try{
+	               PreparedStatement pst1 = conn.prepareStatement("Select * from parking_lender where status = 'A' and location = "+destinationLocation+"");
+	               ResultSet rs1 = pst1.executeQuery();
+	               if (rs1.next()) {                 
+	                   int plID= rs1.getInt("pl_id");
+	                   PreparedStatement pst2 = conn.prepareStatement("update schedule set pl_id = "+plID+", parking_status= 'C' where id = "+ID+"");
+	                   pst2.executeQuery();
+	                   PreparedStatement pst3 = conn.prepareStatement("update parking_lender set status = 'NA' where pl_id = "+plID+"");
+	                   pst3.executeQuery();
+	                   
+	                }
+	               }catch (SQLException e) {
+	               e.printStackTrace();
+	           
+	           }
+	           }
+	   }catch (SQLException e) {
+	       e.printStackTrace();
+	   }
+	}
+
+
+	public String checkPaymentType(String email){
+		String paymentTY= "debit";
+		
+		//select debit from memebrs where email ==
+		
+		
+		return paymentTY;
+		 
+	}
   
   
 }

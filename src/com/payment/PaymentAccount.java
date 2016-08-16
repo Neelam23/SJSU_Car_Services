@@ -1,26 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.payment;
 
-/**
- *
- * @author personal
- */
-abstract class PaymentAccount {
-    protected PaymentType payment;
-    protected PaymentType getPayment()
+public abstract class PaymentAccount {
+    protected PaymentType paymentTY;
+    
+    public PaymentAccount(PaymentType paymentTY)
     {
-        return payment;
+        this.paymentTY = paymentTY;
+    }
+    
+    public abstract void payment();
+    
+    protected void cardPayment(){
+    	paymentTY.cardPayment();
     }
     
     
-    protected void setPayment (PaymentType payment)
-    {
-        this.payment = payment;
-    }
-    abstract void payit();
-    abstract void pay();
 }

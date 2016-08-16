@@ -5,24 +5,21 @@ import java.util.*;
 public abstract class NotificationManager {
 	
 	public String message;
-	private List<MemberObserverInterface> observers = new ArrayList<MemberObserverInterface>();
+	private List<MemberObserver> observers = new ArrayList<MemberObserver>();
 	
-	public String getMsg() {
-	    return message;
-	 }
 	
-	 public void setMsg(String message) {
-	    this.message = message;
-	    notifyObserver();
-	 }
-	public void addObserver(MemberObserverInterface observer ){
+	public void addObserver(MemberObserver observer ){
 		 observers.add(observer);
 	}
 	
-	public void notifyObserver(){
-		for (MemberObserverInterface obj : observers) {
+	
+	public void deleteObserver(MemberObserverInterface observer ){
+		 observers.remove(observer);
+	}
+	
+	public void notifyObserver(String message){
+		for (MemberObserver obj : observers) {
 			obj.generateMessage(message);
 	     }
-		
 	}
 }

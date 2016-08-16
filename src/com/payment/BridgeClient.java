@@ -5,10 +5,7 @@
  */
 package com.payment;
 import java.util.Scanner;
-/**
- *
- * @author personal
- */
+
 public class BridgeClient {
     
 //    public static void main (String[] args)

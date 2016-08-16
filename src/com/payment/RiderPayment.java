@@ -4,24 +4,20 @@
  * and open the template in the editor.
  */
 package com.payment;
+import java.util.*;
 
-/**
- *
- * @author personal
- */
+
 public class RiderPayment extends PaymentAccount {
+	
+//	List<String> emailList= new ArrayList<String>();
 
-   
+    public RiderPayment(PaymentType paty) {
+		super(paty);
+	
+	}
 
-    public void payit() {
-        System.out.print("Account filled with");
-        payment.fillType();
+	public void payment() {
+        cardPayment();
     }
-
-    public void pay() {
-        System.out.println("Rider has been charged");
-    }
-    
-    
     
 }

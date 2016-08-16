@@ -10,13 +10,15 @@ package com.payment;
  * @author personal
  */
 public class ParkingLenderPayment extends PaymentAccount {
-    public void payit() {
-        System.out.print("Account filled with");
-        payment.fillType();
-    }
+    
+    
+	 public ParkingLenderPayment(PaymentType paty) {
+			super(paty);
+		
+		}
 
-    public void pay() {
-        System.out.println("Lender has been charged");
-    }
+		public void payment() {
+	        cardPayment();
+	    }
     
 }

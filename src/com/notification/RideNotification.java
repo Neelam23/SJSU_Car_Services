@@ -1,9 +1,13 @@
 package com.notification;
 
-public class RideNotification {
+public class RideNotification extends NotificationManager{
 
-	
-   public void generateMessage(String message){
-	   System.out.println( "bccvhj"+message);
-	}
+   private String message;
+	 public void setMsg(String message) {
+		    this.message = message;
+		    notifyObserver(this.message);
+		 }
+	 public String getMsg() {
+		    return message;
+		 }
 }

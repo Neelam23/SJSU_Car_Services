@@ -2,7 +2,9 @@ package com.client;
 import com.schedule.*;
 import java.sql.Connection;
 import com.dao.*;
+import com.parking.*;
 import com.request.RequestManager;
+import com.ride.*;
 
 import java.util.Scanner; 
 
@@ -32,7 +34,7 @@ public class Client {
 		int selection = scanner.nextInt();
 		switch (selection) {
         case 1:  
-        	    //call member classes
+        	    
         	     
                  break;
                  
@@ -96,7 +98,7 @@ public class Client {
                 SchedulingContext schedulingContext;
                 switch (selection3) {
 		            case 1:  
-		            	 System.out.println("Start Schedule Parking!");
+		            	 System.out.println("Start Schedule Ride!");
 			       	    //	manageSchedule();
 		            	 schedulingContext = new SchedulingContext(new ScheduleRide()); 
 		                 schedulingContext.executeStrategy(db);
@@ -108,9 +110,11 @@ public class Client {
 		                    break;  
 		             case 3:
 	    	               System.out.print("Dispatch Ride Request");
+	    	               RideInfo rideInfo = new RideInfo(); //send ride data which ride is starting
 		            	   break;
 		             case 4:
 	    	               System.out.print("Start Parking!");
+	    	               ParkingInfo parkingInfo = new ParkingInfo(); //
 		            	   break;
 		             case 5:
 	    	               System.out.print("Existed!!");

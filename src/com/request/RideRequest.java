@@ -38,42 +38,41 @@ public class RideRequest implements RequestInterface {
 	        int i= db.checkRoute(this);     //Check route   
 		    if(i==1){
 		        System.out.println("\nThis route is available!!");
+		        
+		        System.out.print("\nPlease Select Vehicle Type: ");
+		        System.out.println("Please Select from Following options:\n"+"1. Sedan"+"\n2. SUV"+"\n3. Truck"+"\n4. Ferry"+"\n5. Luxury Car");
+		        int val = Integer.parseInt(input.readLine());   
+		        if( val==1 || val==2|| val==3||val==4||val==5){
+		        	System.out.println("Vehicle type selected!!");
+		        	vehicleType = val;
+		        	
+//			        System.out.print("\nEnter Number of Vehicle you want: ");
+//			        numOfVehicle = Integer.parseInt(input.readLine());
+			        
+			        System.out.print("\nEnter Date of Ride in dd/MM/yyyy format: ");
+			        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			        try{
+				        dateOfRide = formatter.parse(input.readLine());
+				        System.out.println(dateOfRide);
+						} catch (ParseException e) {
+							System.out.println("Wrong Date format or value\n");
+							e.printStackTrace();
+						}
+		        	
+		          }else{
+		        	System.out.println("\n Wrong input!!");
+		          }
+		        
 		    }else if(i==0){
-		        System.out.println("\nSorry!! this Route is currently not available");
+		        System.out.println("\nSorry!! this Route is currently not available");      
 		    }
-	        
-		    
-	        System.out.print("\nSelect Vehicle Type: ");
-	        System.out.println("Please Select from Following options:\n"+"1. Sedan"+"\n2. SUV"+"\n3. Truck"+"\n4. Ferry"+"\n5. Luxury Car");
-	        int val = Integer.parseInt(input.readLine());   
-	        if( val==1 || val==2|| val==3||val==4||val==5){
-	        	System.out.println("Vehicle type selected!!");
-	        	vehicleType = val;
-	          }else{
-	        	System.out.println("Wrong input!!");
-	        	//val = Integer.parseInt(input.readLine());
-	          }
-	        
-	        
-	        System.out.print("\nEnter Number of Vehicle you want: ");
-	        numOfVehicle = Integer.parseInt(input.readLine());
-	        
-	        System.out.print("\nEnter Date of Ride in dd/MM/yyyy format: ");
-	        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-	        try{
-		        dateOfRide = formatter.parse(input.readLine());
-		        System.out.println(dateOfRide);
-				} catch (ParseException e) {
-					System.out.println("Wrong Date format or value\n");
-					e.printStackTrace();
-				}
-	        
-	    	}catch (IOException e) {
+	   }catch (IOException e) {
 	            e.printStackTrace();
-	        }
+	   }
     	
-            db.saveRideRequest(this);
-    	}  
-   }
+     db.saveRideRequest(this);
+   }  
+    
+}
 
 

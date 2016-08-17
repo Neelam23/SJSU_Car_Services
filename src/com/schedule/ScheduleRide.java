@@ -16,9 +16,11 @@ public class ScheduleRide implements SchedulingStrategy{
     @Override
     public void doOperation(MySQLDB db){
        this.db= db;
-       emails= db.scheduleRide();
-       //payment 
-      // PaymentAccount PaymentAcc= new RiderPayment(emails);
+      // db.scheduleRide();
+        emails= db.scheduleRide();
+        
+  // payment advance after scheduling requests
+
        int i=0;
        while(emails.size()!= 0){
        String emailid = emails.get(i);

@@ -13,6 +13,13 @@ public class Credit implements PaymentType
 {
 	public void cardPayment(){
 		System.out.println("Rider has been charged with Credit card payment");
+//		String message= "Rider has been charged with Credit card payment";
+//		notify
+//		MemberObserver observer = new MemberObserver();
+//		RideNotification rideNotification = new RideNotification();
+//		rideNotification.addObserver(observer);
+//		rideNotification.setMsg(message);
+	
 	}
    
 }

@@ -2,6 +2,10 @@ package com.client;
 import com.schedule.*;
 import java.sql.Connection;
 import com.dao.*;
+import com.members.Driver;
+import com.members.Member;
+import com.members.ParkingLender;
+import com.members.Rider;
 import com.parking.*;
 import com.request.RequestManager;
 import com.ride.*;
@@ -35,7 +39,34 @@ public class Client {
 		switch (selection) {
         case 1:  
         	    
-        	     
+	        	System.out.println("Please select one of the following options:\n" + "1. Rider" + "\n2. Driver" + "\n3.Parking Lender");
+	            int memberType;
+	            Member memberObj = null;
+	            
+	            do {
+	                memberType = scanner.nextInt();
+	
+	                if (memberType == 1) // Rider
+	                {
+	                    memberObj = new Rider(scanner, db); 
+	                }
+	                else if (memberType == 2) // Driver
+	                {
+	                    memberObj = new Driver(scanner, db);
+	                }
+	                else if (memberType == 3) // Parking Lender
+	                {
+	                    memberObj = new ParkingLender(scanner, db);
+	                }
+	                else // Invalid input
+	                {
+	                    System.out.println("Invalid selection. Please select one of the following options:\n" + "1. Rider" + "\n2. Driver" + "\n3.Parking Lender");
+	                }
+	            } while (memberType<1 || memberType>3);
+	            //call member classes
+	            memberObj.signUp();
+	            //db.signUp();
+	            //db.signUp(memberObj);
                  break;
                  
         case 2:  
@@ -51,10 +82,13 @@ public class Client {
 	            	 if(Category.equals("A")){
 	                 	
 	                 	System.out.println("1. Request a ride");
+	                 	System.out.println("2. Request ride Cancellation");
 	                    } else if(Category.equals("B")){
 	                 	   System.out.println("1. Request a Parking");
+	                 	   System.out.println("2. Request parking Cancellation ");
 	                 	   }
-	                 System.out.println("2. Exit");
+	                 
+	                 System.out.println("3. Exit");
 	            }
                
                 RequestManager reqManager = new RequestManager(email,db);
@@ -68,7 +102,14 @@ public class Client {
 		       	       		  }
 		                break;
 		             case 2:  
-			        	 System.out.print("Existed!!");
+		            	 if(Category.equals("A")){
+				       	    	//reqManager.manageRide(); rules related stuff
+				       	        }else if(Category.equals("B")){
+				       	    	   		//reqManager.manageParking();  //rules related stuff
+				       	       		  }
+				         break;
+		             case 3: 
+		            	 System.out.print("Existed!!");
 		                 break;
 		             default:  
 		 	    		 System.out.print("Wrong Choice, please try again");
@@ -114,7 +155,7 @@ public class Client {
 		            	   break;
 		             case 4:
 	    	               System.out.print("Start Parking!");
-	    	               ParkingInfo parkingInfo = new ParkingInfo(); //
+	    	               ParkingInfo parkingInfo = new ParkingInfo(); 
 		            	   break;
 		             case 5:
 	    	               System.out.print("Existed!!");

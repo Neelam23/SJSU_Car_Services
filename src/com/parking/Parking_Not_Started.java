@@ -8,14 +8,14 @@ public class Parking_Not_Started implements ParkingState {
         this.info = r;
     }
         
-    public void parkingTime(){
-        System.out.println("Parking Time");
+    public void parkingTime(int id){
+         System.out.println("Parking ID: " + id +". The parking request has been received.");
         info.setParkingState(new Parking(info));
     }
-    public void gpsLocation(){
-        System.out.println("Parking Location");
+    public void systemClock(int id){
+        System.out.println("Parking ID: " + id +". The parking hasn't started yet.");
     }
-    public void payment(){
-        System.out.println("The parkign has not started yet");
+    public void payment(int id){
+        System.out.println("Parking ID: " + id +". The parking hasn't started yet.");
     }
 }

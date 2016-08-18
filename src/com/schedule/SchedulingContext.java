@@ -14,7 +14,8 @@ public class SchedulingContext {
     
     
     public SchedulingContext (SchedulingStrategy strategy){
-        this.schedulingStrategy = strategy;
+        System.out.println(strategy);
+    	this.schedulingStrategy = strategy;
     }
 
     public void executeStrategy(MySQLDB db){

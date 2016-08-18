@@ -20,10 +20,11 @@ public class ScheduleRide implements SchedulingStrategy{
         emails= db.scheduleRide();
         
   // payment advance after scheduling requests
-
+      
        int i=0;
        while(emails.size()!= 0){
        String emailid = emails.get(i);
+       System.out.println(emailid);
        String paymentTY= db.checkPaymentType(emailid);
        PaymentType PT;
        if(paymentTY=="credit"){
@@ -31,7 +32,8 @@ public class ScheduleRide implements SchedulingStrategy{
        }else{
     	   PT = new Debit();
        }
-       PaymentAccount PA= new RiderPayment(PT);
+       RiderPayment PA= new RiderPayment(PT);
+       PA.payment();//call payment according to card no
        i++;
        }
     }   

@@ -2,7 +2,7 @@ package com.parking;
 
 
 public interface ParkingState {
-    public void parkingTime();
-    public void gpsLocation();
-    public void payment();
+    public void parkingTime(int id);
+    public void systemClock(int id);
+    public void payment(int id);
 }

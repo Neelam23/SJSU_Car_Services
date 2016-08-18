@@ -1,44 +1,59 @@
 package com.members;
 
 import com.dao.MySQLDB;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Scanner;
 
 public class Driver extends Member {
     
-    private String carType;
-    private int size;
+    private String carType = null;
+    private int numSeats = 0;
+    
+    public Driver (String name, String email)
+    {
+        this.name = name;
+        this.email = email;
+        this.Category = "B";
+    }
     
     public Driver(Scanner input, MySQLDB db){
         this.db = db;
         this.Category = "B";
         
-        System.out.println("Please enter your credentials below in order to register as a driver");
+        System.out.println("Please enter your details below: ");
         System.out.print("Email: ");
         email = input.next();
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         password = input.next();
-        System.out.println("Car Type: ");
+        System.out.print("Name: ");
+        name = input.next();
+        System.out.print("Car Type: ");
         carType = input.next();
-        System.out.println("Size: ");
-        size = input.nextInt();
-        System.out.println("Phone number: ");
+        System.out.print("Number of seats: ");
+        numSeats = input.nextInt();
+        System.out.print("Credit Card Number: ");
+        creditCard = input.nextInt();
+        System.out.print("Debit Card Number: ");
+        debitCard = input.nextInt();
+        System.out.print("Phone number: ");
         phone = input.nextInt();
     }
     
-    public void signUp() {
+    public void signUp() throws SQLIntegrityConstraintViolationException, SQLException {
         
         // Insert member details
-        String insertMemberString = "INSERT INTO members(id,category,name,email,password,address,creditCard,debitCard,availablity_status) VALUES (1 ," + this.Category + "," + this.name + "," + this.email + "," + this.password + ",null," + this.creditCard + "," + this.debitCard + ",null";
+        String insertMemberString = "INSERT INTO members(category,name,email,password,address,creditCard,debitCard,availablity_status) VALUES ('" + this.Category + "','" + this.name + "','" + this.email + "','" + this.password + "',null," + this.creditCard + "," + this.debitCard + ",null)";
         db.registerMember(insertMemberString);
         
         // Insert vehicle details
-        String insertVehicleString ="";
+        String insertVehicleString = "INSERT into vehicle (member_email, vehicleType, numSeats) VALUES ('"+ this.email +"','" + this.carType + "'," + this.numSeats+ ")";
         db.registerVehicle(insertVehicleString);
     }
      
      
     public void display(){
-        System.out.println("New driver has been added to the system");
+        System.out.println(" Driver : " + name + ", email : " + email);
     }
     
 }

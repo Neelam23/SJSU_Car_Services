@@ -2,20 +2,25 @@ package com.ride;
 
 public class Riding implements RideState {
     private RideInformation info;
+    private int zone = 1;
     
     public Riding(RideInformation ride){
         this.info= ride;
     }
     
-    public void pickUpAndDropOffLocation(){
-        System.out.println("The ride is in riding state and pick up is done");
+    public void pickUpAndDropOffLocation(int id){
+        System.out.println("Ride ID: " + id + ". The ride is in progress and pick up is done");
     }
-    public void gpsLocation(){
-        System.out.println("The ride is in riding state");
-        info.setRideState(new Ride_Finished(info));
+    public void gpsLocation(int id){
+        System.out.println("Ride ID: " + id + ". The ride is in progress and in zone " + zone);
+        if (zone == 3)
+        {
+            info.setRideState(new Ride_Finished(info));
+        }
+        zone++;
     }
-    public void payment(){
-        System.out.println("The ride is in riding state and 25% of the total amount has been hold");
+    public void payment(int id){
+        System.out.println("Ride ID: " + id + ". The ride is in progress and 25% of the total amount has been hold");
     }
     
 }

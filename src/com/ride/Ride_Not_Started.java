@@ -8,14 +8,14 @@ public class Ride_Not_Started implements RideState {
         this.info = r;
     }
         
-    public void pickUpAndDropOffLocation(){
-        System.out.println("The ride has not started yet");
+    public void pickUpAndDropOffLocation(int id){
+        System.out.println("Ride ID: " + id +". The ride request has been received.");
         info.setRideState(new Riding(info));
     }
-    public void gpsLocation(){
-        System.out.println("The ride has not started yet");
+    public void gpsLocation(int id){
+        System.out.println("Ride ID: " + id + ". The ride has not started yet.");
     }
-    public void payment(){
-        System.out.println("The ride has not started yet");
+    public void payment(int id){
+        System.out.println("Ride ID: " + id + ". The ride has not started yet.");
     }
 }

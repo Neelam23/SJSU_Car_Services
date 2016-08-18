@@ -13,7 +13,6 @@ public class RiderPayment extends PaymentAccount {
 
     public RiderPayment(PaymentType paty) {
 		super(paty);
-	
 	}
 
 	public void payment() {

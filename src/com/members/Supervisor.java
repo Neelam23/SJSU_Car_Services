@@ -13,11 +13,11 @@ public abstract class Supervisor extends Member{
             mem.display();
     }
     
-    private void addMember(Member mem){
+    protected void addMember(Member mem){
         member.add(mem);
     }
     
-    private void removeMember(Member mem){
+    protected void removeMember(Member mem){
         member.remove(mem);
     }
 }

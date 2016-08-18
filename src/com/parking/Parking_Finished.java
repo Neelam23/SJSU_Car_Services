@@ -7,13 +7,13 @@ public class Parking_Finished implements ParkingState{
          this.info = r;
     }
     
-    public void parkingTime(){
-        System.out.println("Parking time");
+    public void parkingTime(int id){
+        System.out.println("Parking ID: " + id + ". The parking time is completed");
     }
-    public void gpsLocation(){
-        System.out.println("GPS Location");
+    public void systemClock(int id){
+        System.out.println("Parking ID: " + id + ". The parking time is completed, you have 5 more minutes to pick up your car without extra charges.");
     }
-    public void payment(){
-        System.out.println("The parking has been finished and you have been charged");
+    public void payment(int id){
+        System.out.println("The parking time is completed, and you have been charged");
     }  
 }

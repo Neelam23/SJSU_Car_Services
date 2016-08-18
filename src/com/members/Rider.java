@@ -34,7 +34,7 @@ public class Rider extends Member {
     }
     
     public void signUp() throws SQLIntegrityConstraintViolationException, SQLException {
-        String insertString = "INSERT INTO members(category,name,email,password,address,creditCard,debitCard,availablity_status) VALUES ('" + this.Category + "','" + this.name + "','" + this.email + "','" + this.password + "',null," + this.creditCard + "," + this.debitCard + ",null)";
+        String insertString = "INSERT INTO members(category,name,email,password,address,creditCard,debitCard) VALUES ('" + this.Category + "','" + this.name + "','" + this.email + "','" + this.password + "',null," + this.creditCard + "," + this.debitCard + ")";
         db.registerMember(insertString);
     }
     

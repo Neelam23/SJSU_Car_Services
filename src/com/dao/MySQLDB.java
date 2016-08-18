@@ -40,6 +40,7 @@ public class MySQLDB {
     public void registerMember(String insertString) throws  SQLIntegrityConstraintViolationException, SQLException{
 
         try {
+        	System.out.println(insertString);
             PreparedStatement pst = conn.prepareStatement(insertString);
             pst.execute();
 
@@ -222,8 +223,8 @@ public class MySQLDB {
                     PreparedStatement pst1 = conn.prepareStatement("Select * from members where category = 'B' and availablity_status = 'A'");
                     ResultSet rs1 = pst1.executeQuery();
                     if (rs1.next()) { 
-                        int driver_email= rs1.getInt("email"); //member_email instead of id
-                        System.out.println("driver_email:	" + driver_email);
+                    	String driver_email= rs1.getString("email"); //member_email instead of id
+                       // System.out.println("driver_email:	" + driver_email);
                         try{
 	                        PreparedStatement pst2 = conn.prepareStatement("select * from routes where routeStartCity ='"+startingLocation+"' and routeEndCity = '"+destinationLocation+"' ORDER BY distance_in_miles ");
 	                        ResultSet rs2 = pst2.executeQuery();
@@ -232,10 +233,10 @@ public class MySQLDB {
 	                            routeID= rs2.getInt("id");
 	                        }//?
 	                        routeID= rs2.getInt("id");
-	                        System.out.println("routeid" + routeID);
-	                        PreparedStatement pst3 = conn.prepareStatement("insert into scheduleride (id, rider_email, driver_email, starting_location, destination_location, date, route_id, scheduleStatus) values ('"+riderEmail+"',"+driver_email+", '"+startingLocation+"', '"+destinationLocation+"', '"+dateOfRide+"', "+routeID+", 'Scheduled')");
+	                       // System.out.println("routeid" + routeID);
+	                        PreparedStatement pst3 = conn.prepareStatement("insert into scheduleride (rider_email, driver_email, starting_location, destination_location, date, route_id, scheduleStatus) values ('"+riderEmail+"','"+driver_email+"', '"+startingLocation+"', '"+destinationLocation+"', '"+dateOfRide+"', "+routeID+", 'Scheduled')");
 	                        pst3.executeUpdate();
-	                        PreparedStatement pst4 = conn.prepareStatement("update members set availablity_status = 'NA' where email = "+driver_email+"");
+	                        PreparedStatement pst4 = conn.prepareStatement("update members set availablity_status = 'NA' where email = '"+driver_email+"'");
 	                        pst4.executeUpdate();
 	                        PreparedStatement pst5 = conn.prepareStatement("delete from riderequests where id = "+riderID+""); 
 	                        pst5.executeUpdate();
@@ -255,13 +256,16 @@ public class MySQLDB {
      	return emails;
     }
 	 
-   public void scheduleParking(){
+   public List<String> scheduleParking(){
+	   
+	   List<String> emails= new ArrayList<String>();
      	try{
 		PreparedStatement pst = conn.prepareStatement("Select * from parkingrequests");
            ResultSet rs = pst.executeQuery();
            while (rs.next()) {
                int id = rs.getInt("id");
                String driverEmail = rs.getString("driver_email") ;
+               emails.add(driverEmail);
                String parkingLocation = rs.getString("parkinglocation");
                int noOfHours = rs.getInt("parking_hours");
                java.util.Date dateOfParking = rs.getDate("date_of_parking");;
@@ -272,7 +276,7 @@ public class MySQLDB {
                PreparedStatement pst1 = conn.prepareStatement("Select * from members where category = 'C' and availablity_status = 'A'");
                ResultSet rs1 = pst1.executeQuery();
                if (rs1.next()) {                 
-                   int plEmail= rs1.getInt("email");
+                   String plEmail= rs1.getString("email");
                    try{
                            PreparedStatement pst2 = conn.prepareStatement("select * from garage where garage_city ='"+parkingLocation+"' and member_email = '"+plEmail+"' ");
                            ResultSet rs2 = pst2.executeQuery();
@@ -282,7 +286,7 @@ public class MySQLDB {
                            int parkingSlotsBooked = rs2.getInt("parking_slots_booked");
                            if (parkingSlotsTotal > parkingSlotsBooked) {
                                parkingSlotsBooked = parkingSlotsBooked + 1;
-                               PreparedStatement pst3 = conn.prepareStatement("insert into scheduleparking ( driver_email, parkingLender_email, parking_location, date, no_of_hours, garage_id, scheduleStatus) values ('"+driverEmail+"',"+plEmail+", '"+parkingLocation+"', '"+dateOfParking+"', '"+noOfHours+"', "+garageID+", 'Scheduled')");
+                               PreparedStatement pst3 = conn.prepareStatement("insert into scheduleparking ( driver_email, parkingLender_email, parking_location, date, no_of_hours, garage_id, scheduleStatus) values ('"+driverEmail+"','"+plEmail+"', '"+parkingLocation+"', '"+dateOfParking+"', '"+noOfHours+"', "+garageID+", 'Scheduled')");
                                pst3.execute();
                                PreparedStatement pst5 = conn.prepareStatement("delete from parkingrequests where id = "+id+""); 
                                pst5.executeUpdate();
@@ -305,8 +309,9 @@ public class MySQLDB {
            }//while end
            }catch (SQLException e) {
        e.printStackTrace();
-      
      }
+     	
+     return emails;
    }    
 
    public List<RideInfo> readRideSchedule() {

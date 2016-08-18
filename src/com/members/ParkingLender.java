@@ -44,7 +44,7 @@ public class ParkingLender extends Member{
     public void signUp() throws SQLIntegrityConstraintViolationException, SQLException {
 
         // Insert member details
-        String insertMemberString = "INSERT INTO members(category,name,email,password,address,creditCard,debitCard,availablity_status) VALUES ('" + this.Category + "','" + this.name + "','" + this.email + "','" + this.password + "',null," + this.creditCard + "," + this.debitCard + ",null)";
+        String insertMemberString = "INSERT INTO members(category,name,email,password,address,creditCard,debitCard) VALUES ('" + this.Category + "','" + this.name + "','" + this.email + "','" + this.password + "',null," + this.creditCard + "," + this.debitCard + ")";
         db.registerMember(insertMemberString);
 
         // Insert garage (paring spot) details

@@ -22,3 +22,4 @@ public class Debit implements PaymentType {
 //		rideNotification.setMsg(message);
 	}
 }
+	

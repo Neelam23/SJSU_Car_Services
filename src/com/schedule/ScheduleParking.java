@@ -5,15 +5,39 @@
  */
 package com.schedule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dao.MySQLDB;
+import com.payment.Credit;
+import com.payment.Debit;
+import com.payment.PaymentType;
+import com.payment.RiderPayment;
 
 public class ScheduleParking implements SchedulingStrategy{
 
+	List<String> emails= new ArrayList<String>();
 	MySQLDB db;
     @Override
     public void doOperation(MySQLDB db) {
         this.db=db;
-        db.scheduleParking();
+        emails= db.scheduleParking();
+        
+        int i=0;
+        while(i< emails.size()){
+        String emailid = emails.get(i);
+        System.out.println("neelam  "+emailid);
+        String paymentTY= db.checkPaymentType(emailid);
+        PaymentType PT;
+        if(paymentTY=="credit"){
+     	   PT = new Credit();
+        }else{
+     	   PT = new Debit();
+        }
+        RiderPayment PA= new RiderPayment(PT);
+        PA.payment();//call payment according to card no
+        i++;
+        }
     }
    
 }

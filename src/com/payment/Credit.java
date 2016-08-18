@@ -5,6 +5,9 @@
  */
 package com.payment;
 
+import com.notification.MemberObserver;
+import com.notification.*;
+
 /**
  *
  * @author personal
@@ -12,8 +15,13 @@ package com.payment;
 public class Credit implements PaymentType
 {
 	public void cardPayment(){
-		System.out.println("Rider has been charged with Credit card payment");
-	
+		//	System.out.println("Rider has been charged with Debit card payment");
+		String message= " Credit card payment is successful!!";
+	//	Call notification
+		MemberObserver observer = new MemberObserver();
+		ParkingNotification parkingNotification = new ParkingNotification();
+		parkingNotification.addObserver(observer);
+		parkingNotification.setMsg(message);
 	}
    
 }

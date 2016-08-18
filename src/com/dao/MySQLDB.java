@@ -24,6 +24,7 @@ public class MySQLDB {
     String user = "root";
     String pass = "Psword@1";
 
+    
     public void testConnection() throws ClassNotFoundException, SQLException {
         try {
             Class.forName(driver);
@@ -37,48 +38,52 @@ public class MySQLDB {
         }
     }
 
+    
     public void registerMember(String insertString) throws SQLIntegrityConstraintViolationException, SQLException {
 
         try {
-            System.out.println(insertString);
+            //System.out.println(insertString);
             PreparedStatement pst = conn.prepareStatement(insertString);
             pst.execute();
 
-            System.out.println("Successfully registered!");
+            System.out.println("\nSuccessfully registered!");
         } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Email already registered, please use another email.");
+            System.out.println("\nEmail already registered, please use another email.");
             throw (e);
         } catch (SQLException e) {
-            System.out.println("Error occured during registration. Please try again later");
+            System.out.println("\nError occured during registration. Please try again later");
             throw (e);
         }
     }
 
+    
     public void registerVehicle(String insertString) throws SQLIntegrityConstraintViolationException, SQLException {
         try {
             PreparedStatement pst = conn.prepareStatement(insertString);
             pst.execute();
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Email already registered, please use another email.");
+            System.out.println("\nEmail already registered, please use another email.");
             throw (e);
         } catch (SQLException e) {
-            System.out.println("Error occured during vehicle registration. Please try again later");
+            System.out.println("\nError occured during vehicle registration. Please try again later");
             e.printStackTrace();
         }
     }
 
+    
     public void registerGarage(String insertString) {
         try {
             PreparedStatement pst = conn.prepareStatement(insertString);
             pst.execute();
 
         } catch (SQLException e) {
-            System.out.println("Error occured during vehicle registration. Please try again later");
+            System.out.println("\nError occured during vehicle registration. Please try again later");
             e.printStackTrace();
         }
     }
 
+    
     public String signIn(String email, String password) {
 
         String val = "";
@@ -93,7 +98,7 @@ public class MySQLDB {
                 System.out.println("SignIn Successful!!");
                 val = Category;
             } else {
-                System.out.println("SignIn Unsuccessful!! Try again Later.");
+                System.out.println("\nSignIn Unsuccessful!! Try again Later.");
                 val = "";
             }
         } catch (SQLException e) {
@@ -102,6 +107,7 @@ public class MySQLDB {
         return val;
     }
 
+    
     public int adminSignIn(String email, String password) {
         int val = 0;
         try {
@@ -110,10 +116,10 @@ public class MySQLDB {
             pst.setString(2, password);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                System.out.println("SignIn Successful!!");
+                System.out.println("\nSignIn Successful!!");
                 val = 1;
             } else {
-                System.out.println("SignIn Unsuccessful!! Try again later");
+                System.out.println("\nSignIn Unsuccessful!! Try again later");
                 val = 0;
             }
         } catch (SQLException e) {
@@ -122,6 +128,7 @@ public class MySQLDB {
         return val;
     }
 
+    
     public int checkRoute(SimpleRideRequest reqObj) {
         int value = 0;
         try {
@@ -141,6 +148,7 @@ public class MySQLDB {
         return value;
     }
 
+    
     public void saveRideRequest(SimpleRideRequest reqObj) {
         java.sql.Date sDate = new java.sql.Date(reqObj.dateOfRide.getTime());
         System.out.println(sDate);
@@ -157,14 +165,15 @@ public class MySQLDB {
             pst.setDate(6, sDate);
             pst.execute();
 
-            System.out.println("Ride Request Received. Your booking will be scheduled shortly. Thank You!!");
+            System.out.println("\nRide Request Received. Your booking will be scheduled shortly. Thank You!!");
 
         } catch (SQLException e) {
-            System.out.println("Error occured in Ride Request. Please try again later");
+            System.out.println("\nError occured in Ride Request. Please try again later");
             e.printStackTrace();
         }
     }
 
+    
     public void saveParkingRequest(ParkingRequest reqObj) {
         java.sql.Date sDate = new java.sql.Date(reqObj.dateOfParking.getTime());
         System.out.println(sDate);
@@ -179,14 +188,15 @@ public class MySQLDB {
             pst.setDate(5, sDate);
             pst.execute(); //insert in table
 
-            System.out.println("Parking Request Received. Your booking will be scheduled shortly. Thank You!!");
+            System.out.println("\nParking Request Received. Your booking will be scheduled shortly. Thank You!!");
 
         } catch (SQLException e) {
-            System.out.println("Error occured in Parking Request. Please try again later");
+            System.out.println("\nError occured in Parking Request. Please try again later");
             e.printStackTrace();
         }
     }
 
+    
     public List<String> scheduleRide() {
         List<String> emails = new ArrayList<String>();
         try {
@@ -195,26 +205,15 @@ public class MySQLDB {
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
+            	
                 int riderID = rs.getInt("id");
-                System.out.println(riderID);
-
                 String riderEmail = rs.getString("rider_email");
-                System.out.println("riderEmail:	" + riderEmail);
                 emails.add(riderEmail); //for payment 
-
                 String startingLocation = rs.getString("starting_location");
-                System.out.println("starting loc:	" + startingLocation);
-
                 String destinationLocation = rs.getString("destination_location");
-                System.out.println("destinationloc:	" + destinationLocation);
-
                 int vehicleType = rs.getInt("vehicleType");
-                System.out.println("vehicletype:	" + vehicleType);
-
                 String dateOfRide = rs.getString("date_of_Ride");
-                System.out.println("dateofride:	" + dateOfRide);
-
-                //vehicle type
+                
                 try {
                     PreparedStatement pst1 = conn.prepareStatement("Select * from members where category = 'B' and availablity_status = 'A'");
                     ResultSet rs1 = pst1.executeQuery();
@@ -229,13 +228,15 @@ public class MySQLDB {
                                 routeID = rs2.getInt("id");
                             }//?
                             routeID = rs2.getInt("id");
-                            // System.out.println("routeid" + routeID);
                             PreparedStatement pst3 = conn.prepareStatement("insert into scheduleride (rider_email, driver_email, starting_location, destination_location, date, route_id, scheduleStatus) values ('" + riderEmail + "','" + driver_email + "', '" + startingLocation + "', '" + destinationLocation + "', '" + dateOfRide + "', " + routeID + ", 'Scheduled')");
                             pst3.executeUpdate();
                             PreparedStatement pst4 = conn.prepareStatement("update members set availablity_status = 'NA' where email = '" + driver_email + "'");
                             pst4.executeUpdate();
                             PreparedStatement pst5 = conn.prepareStatement("delete from riderequests where id = " + riderID + "");
                             pst5.executeUpdate();
+                            
+                            System.out.println("\n** Your ride is scheduled for "+dateOfRide);
+                            System.out.println("\n** Advance payment will be deducted and you will receive an email notification shortly. Thank You!!"); 
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -252,6 +253,7 @@ public class MySQLDB {
         return emails;
     }
 
+    
     public List<String> scheduleParking() {
 
         List<String> emails = new ArrayList<String>();
@@ -267,7 +269,7 @@ public class MySQLDB {
                 java.util.Date dateOfParking = rs.getDate("date_of_parking");;
                 //  int parkingID = rs.getInt("id");
                 System.out.println(id);
-                System.out.println(driverEmail);
+                //System.out.println(driverEmail);
                 try {
                     PreparedStatement pst1 = conn.prepareStatement("Select * from members where category = 'C' and availablity_status = 'A'");
                     ResultSet rs1 = pst1.executeQuery();
@@ -288,6 +290,11 @@ public class MySQLDB {
                                     pst5.executeUpdate();
                                     PreparedStatement pst6 = conn.prepareStatement("update garage set parking_slots_booked= " + parkingSlotsBooked + " where id = " + garageID + "");
                                     pst6.executeUpdate();
+                                    
+                                    System.out.println("\n** Your parking request is scheduled for "+dateOfParking);
+                                    System.out.println("\n** Advance payment will be deducted and you will receive an email notification shortly. Thank You!!"); 
+
+
                                 } else if (parkingSlotsTotal == parkingSlotsBooked) {
                                     PreparedStatement pst4 = conn.prepareStatement("update members set availablity_status = 'NA' where email = '" + plEmail + "'");
                                     pst4.executeUpdate();
@@ -309,6 +316,7 @@ public class MySQLDB {
         return emails;
     }
 
+    
     public List<RideInfo> readRideSchedule() {
 
         List<RideInfo> rideInfoList = new ArrayList<RideInfo>();
@@ -332,6 +340,7 @@ public class MySQLDB {
         return rideInfoList;
     }
 
+    
     public void updateScheduleRide(RideInfo info) {
         try {
             // Update the scheduleStatus to completed
@@ -348,6 +357,7 @@ public class MySQLDB {
         }
     }
 
+    
     public List<ParkingInfo> readParkingSchedule() {
 
         List<ParkingInfo> parkingInfoList = new ArrayList<ParkingInfo>();
@@ -371,6 +381,7 @@ public class MySQLDB {
         return parkingInfoList;
     }
 
+    
     public void updateScheduleParkng(ParkingInfo info) {
         try {
             // Update the scheduleStatus to completed
@@ -382,11 +393,18 @@ public class MySQLDB {
             updateString = "update members set availablity_status='A' where email='" + info.getParkingLenderId() + "' and category='C'";
             pst = conn.prepareStatement(updateString);
             pst.executeUpdate();
+            
+            //update garage booking
+            updateString = "update garage set parking_slots_booked=parking_slots_booked-1 where member_email='"+ info.getParkingLenderId()+"'";
+            pst = conn.prepareStatement(updateString);
+            pst.executeUpdate();
+            
         } catch (SQLException ex) {
             Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+ 
+    
     public Admin getMemberList() {
         Admin adminObj = new Admin();
 
@@ -413,7 +431,8 @@ public class MySQLDB {
 
         return adminObj;
     }
-
+  
+    
     public void getscheduleparking() {
         try {
             PreparedStatement pst = conn.prepareStatement("Select * from scheduleparking order by date");
@@ -434,6 +453,7 @@ public class MySQLDB {
         }
     }
 
+    
     public void getscheduleRide() {
         try {
             PreparedStatement pst = conn.prepareStatement("Select * from scheduleride order by date");
@@ -455,83 +475,79 @@ public class MySQLDB {
         }
     }
 
+    
     public String checkPaymentType(String email) {
         String paymentTY = "debit";
 
-        //select debit from memebrs where email ==
+//        try{
+//        	PreparedStatement pst = conn.prepareStatement("Select * from members where email=?");
+//            pst.setString(1, email);
+//        	}catch(SQLException ex){
+//        		System.out.println("\n");
+//        	}
         return paymentTY;
 
     }
 
-    public boolean checkRequest(String email, MySQLDB db) {
-        boolean val = false;
 
-        try {
-            PreparedStatement pst = conn.prepareStatement("Select * from riderequests where rider_email=?");
-            pst.setString(1, email);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                val = true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return val;
-    }
-
-    public void CancelRequest(String email, MySQLDB db, String[] loc) {
+    public void cancelRequest(String email, MySQLDB db, String[] loc) {
 
         String location[] = new String[2];
         location = loc;
 
-        if (location.length == 1) {
-            String parkingloc = location[0];
+        if (location[1] == null) {
+            String parkinglocation = location[0];
             //driver 
+            try{
+	            	PreparedStatement pst = conn.prepareStatement("Select * from parkingrequests where driver_email=?");
+	                pst.setString(1, email);
+	                ResultSet rs = pst.executeQuery();
+	                if(rs.next()){
+	                	try{
+	        	            PreparedStatement pst5 = conn.prepareStatement("delete from parkingrequests where driver_email = ? and parkinglocation= ? ");
+	        				pst5.setString(1,email);
+	        				pst5.setString(2,parkinglocation);
+	        				pst5.executeUpdate();
+	        				System.out.println("\nParking Request Cancelled Successfully!");
+	                	}catch (SQLException ex) {
+	                    	System.out.println("\nError Occurred");
+	                        Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+	                		}
+	                	
+	            	}else{
+	            		System.out.println("\n***No unscheduled parking request found. Please contact our customer care for cancelling scheduled requests!***");
+	            	}
+	        	}catch(SQLException ex){
+	        		System.out.println("\nParking Request Cancelled Successfully");
+	        		}
         } else {
-            String starting_location = location[0];
+        	//rider
+        	String starting_location = location[0];
             String destination_location = location[1];
-
-//	   PreparedStatement pst5 = conn.prepareStatement("delete from riderequests where rider_email = '"+email+"' and starting_location='"+starting_location"' and destination_location='"+destination_location"'");
-//	   pst5.executeUpdate();
-            //rider
+	         
+            try{
+	            	PreparedStatement pst = conn.prepareStatement("Select * from riderequests where rider_email=?");
+	                pst.setString(1, email);
+	                ResultSet rs = pst.executeQuery();
+	                if(rs.next()){
+	                	try{
+	        				PreparedStatement pst5 = conn.prepareStatement("delete from riderequests where rider_email = ? and starting_location= ? and destination_location=?");
+	        				pst5.setString(1,email);
+	        				pst5.setString(2,starting_location);
+	        				pst5.setString(3,destination_location);
+	        				pst5.executeUpdate();
+	        				System.out.println("\nRide Request Cancelled Successfully");
+	                	   }catch (SQLException ex) {
+	        		              Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+	        		          }
+	                }else{
+	                	System.out.println("\n ***No unscheduled ride request found. Please contact our customer care for cancelling scheduled requests!***");
+	                }
+            	}catch(SQLException ex){
+            		
+            	}
+            
         }
-    }
+    }  
 
-//   public void updateScheduleRide(RideInfo info)
-//   {
-//       try {
-//           // Update the scheduleStatus to completed
-//           String updateString = "update scheduleride set scheduleStatus='Completed' where rider_email='" + info.getRiderEmail() + "' and driver_email='" + info.getDriverEmail()+"'";
-//           PreparedStatement pst = conn.prepareStatement(updateString);
-//           pst.executeUpdate();
-//           
-//           //Update the driver status to available
-//           updateString = "update members set availablity_status='A' where email='" + info.getDriverEmail() + "' and category='B'";
-//           pst = conn.prepareStatement(updateString);
-//           pst.executeUpdate();
-//       }
-//       catch (SQLException ex) {
-//           Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
-//       }
-//   }
-//   
-//   
-//   public void updateScheduleParkng(ParkingInfo info)
-//   {
-//       try {
-//           // Update the scheduleStatus to completed
-//           String updateString = "update scheduleparking set scheduleStatus='Completed' where parkingLender_email='" + info.getParkingLenderId() + "' and driver_email='" + info.getDriverId()+"'";
-//           PreparedStatement pst = conn.prepareStatement(updateString);
-//           pst.executeUpdate();
-//           
-//           //Update the driver status to available
-//           updateString = "update members set availablity_status='A' where email='" + info.getParkingLenderId() + "' and category='C'";
-//           pst = conn.prepareStatement(updateString);
-//           pst.executeUpdate();
-//       }
-//       catch (SQLException ex) {
-//           Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
-//       }
-//   }
 }

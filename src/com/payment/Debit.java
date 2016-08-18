@@ -15,7 +15,7 @@ public class Debit implements PaymentType {
 	public void cardPayment(){
 	//	System.out.println("Rider has been charged with Debit card payment");
 		String message= "Debit card payment is successful!!";
-	//	notify
+	//	Call notification
 		MemberObserver observer = new MemberObserver();
 		RideNotification rideNotification = new RideNotification();
 		rideNotification.addObserver(observer);

@@ -6,7 +6,7 @@ public class MemberObserver {
 //		
 //	}
 	public void generateMessage(String message){
-		System.out.println("inside generate message"+message); //email/sms
+		System.out.println("\nEamil Notification:[ "+message+" ]"); //email/sms
 	}
   
 }

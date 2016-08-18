@@ -20,7 +20,7 @@ public class RequestManager {
     }
         
     public void manageRide(){
-    	System.out.println("Please Select from Following options:\n"+"1. Carpool Request"+"\n2. Line Request"+"\n3. Simple Request");
+    	System.out.println("\nPlease Select from Following options:\n"+"1. Carpool Request"+"\n2. Line Request"+"\n3. Simple Request");
     	Scanner scanner = new Scanner(System.in);
 		int selection = scanner.nextInt();
 		

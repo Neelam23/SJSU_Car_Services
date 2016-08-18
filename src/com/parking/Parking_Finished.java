@@ -1,5 +1,6 @@
 package com.parking;
 
+import com.payment.Credit;
 import com.payment.Debit;
 import com.payment.DriverPayment;
 import com.payment.PaymentType;
@@ -18,10 +19,10 @@ public class Parking_Finished implements ParkingState{
         System.out.println("Parking ID: " + id + ". The parking time is completed, you have 5 more minutes to pick up your car without extra charges.");
     }
     public void payment(int id){
-        System.out.println("The parking time is completed, and you have been charged");
+        System.out.println("\nThe parking time is completed, and you have been charged");
         
         PaymentType PT;
-        PT = new Debit();
+        PT = new Credit();
         DriverPayment PA= new DriverPayment(PT);
         PA.payment();
         

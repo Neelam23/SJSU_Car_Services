@@ -1,4 +1,5 @@
 package com.rules;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.dao.*;
@@ -10,18 +11,20 @@ public abstract class Rules {
 		
 		String loc[] = new String[2];
 		
-		boolean req = db.checkRequest(email,db); //check if req is availble in req table
-		if(req==true){
-		String val = startprocess(); 
-		if(val.equalsIgnoreCase("N"))
+		startprocess(); 
 		loc= userDetails(); 
-		db.CancelRequest(email,db,loc); 
-		}else{
-			System.out.println("No unscheduled request found.  Please contact customer care to cancel scheduled requests\n");
-		}
+		try{
+			db.cancelRequest(email,db,loc); 
+		}catch (Exception e) {
+        	System.out.println("Error in cancellation");
+        	e.getMessage();
+        	System.exit(-1);
+        }
+			
+        
 	}
 	
 	public abstract String[] userDetails();
-	public abstract String startprocess(); 
+	public abstract void startprocess(); 
 	
 }

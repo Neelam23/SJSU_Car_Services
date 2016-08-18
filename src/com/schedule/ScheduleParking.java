@@ -27,7 +27,6 @@ public class ScheduleParking implements SchedulingStrategy{
         int i=0;
         while(i< emails.size()){
         String emailid = emails.get(i);
-        System.out.println("neelam  "+emailid);
         String paymentTY= db.checkPaymentType(emailid);
         PaymentType PT;
         if(paymentTY=="credit"){

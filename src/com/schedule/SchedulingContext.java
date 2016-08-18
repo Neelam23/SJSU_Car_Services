@@ -14,7 +14,7 @@ public class SchedulingContext {
     
     
     public SchedulingContext (SchedulingStrategy strategy){
-        System.out.println(strategy);
+        //System.out.println(strategy);
     	this.schedulingStrategy = strategy;
     }
 

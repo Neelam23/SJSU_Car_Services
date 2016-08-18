@@ -56,7 +56,7 @@ public class Client {
 
         while (selection != 4) {
             // Get user input
-            System.out.println("Please Select from Following options:\n" + "1. Member SignUp" + "\n2. Member SignIn" + "\n3. Admin SignIn" + "\n4. Exit");
+            System.out.println("\nPlease Select from Following options:\n" + "1. Member SignUp" + "\n2. Member SignIn" + "\n3. Admin SignIn" + "\n4. Exit");
 
             scanner = new Scanner(System.in);
             selection = scanner.nextInt();
@@ -66,10 +66,12 @@ public class Client {
                     break;
 
                 case 2:
+                	System.out.println("*****Member Signin******");
                     memberSignInOptions();
                     break;
 
                 case 3:
+                	System.out.println("*****Admin Signin******");
                     System.out.print("Enter your Email-id:	");
                     email = scanner.next();
                     System.out.print("Enter your Password:	");
@@ -180,9 +182,9 @@ public class Client {
         int selection = 0;
         do {
             System.out.println("\nPlease Select from following Options");
-            System.out.println("1. Start Schedule Ride");
-            System.out.println("2. Start Schedule Parking");
-            System.out.println("3. Dispatch Ride Request");
+            System.out.println("1. Schedule Ride");
+            System.out.println("2. Schedule Parking");
+            System.out.println("3. Dispatch Ride");
             System.out.println("4. Start Parking");
             System.out.println("5. Display members");
             System.out.println("6. Parking Schedule Report");
@@ -196,7 +198,6 @@ public class Client {
                 case 1:
                     System.out.println();
                     System.out.println("Start Schedule Ride!");
-                    //	manageSchedule();
                     schedulingContext = new SchedulingContext(new ScheduleRide());
                     schedulingContext.executeStrategy(db);
                     break;
@@ -215,7 +216,6 @@ public class Client {
                     System.out.println();
                     System.out.println("Start Parking!");
                     readParkingSchedule();
-                    //ParkingInfo parkingInfo = new ParkingInfo();
                     break;
                 case 5:
                     System.out.println();
@@ -255,7 +255,7 @@ public class Client {
         System.out.println("***************************************************************************************************************");
         System.out.println();
         // System.out.println(driver_email+"   "+parkingLender_email+"   "+parkingLocation+"   "+numHours+"   "+date+"   "+scheduleStatus); 
-        System.out.println("Rider Email  |" + " Driver Email  |" + " Starting Location |" + " Destination |" + "   Date      |" + " Route ID  |" + "  Schedule Status");
+        System.out.println("Rider Email      |" + " Driver Email    |" + " Starting Location   |" + " Destination   |" + "   Date        |" + " Route ID    |" + "  Schedule Status");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
         db.getscheduleRide();
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
@@ -268,7 +268,7 @@ public class Client {
         System.out.println("***************************************************************************************************************");
         System.out.println();
         // System.out.println(driver_email+"   "+parkingLender_email+"   "+parkingLocation+"   "+numHours+"   "+date+"   "+scheduleStatus); 
-        System.out.println("Driver Email  |" + " Parking Lender Email  |" + " Parking Location |" + " Hours |" + "   Date      |" + " Status");
+        System.out.println("Driver Email    |" + "ParkingLender Email |" + " Parking Location   |" + " Hours   |" + "   Date        |" + " Status");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
         db.getscheduleparking();
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");

@@ -34,9 +34,9 @@ public class SimpleRideRequest extends RideRequest{
 	        System.out.println("\nPlease fill in the information below: ");
 	        
 	        
-	        System.out.print("Enter Pick up Location:  ");
+	        System.out.print("Enter Pick up Location(sf,sj,mv,paloalto):  ");
 	        pickUpLocation = input.readLine();
-	        System.out.print("Enter Drop off Location:  ");
+	        System.out.print("Enter Drop off Location(sf,sj,mv,paloalto):   ");
 	        dropOffLocation = input.readLine();
 	        int i= db.checkRoute(this);     //Check route   
 		    if(i==1){
@@ -72,8 +72,8 @@ public class SimpleRideRequest extends RideRequest{
 	   }catch (IOException e) {
 	            e.printStackTrace();
 	   }
-		
+     		
 	 db.saveRideRequest(this);
 	}
-
+  
 }

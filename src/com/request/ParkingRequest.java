@@ -32,7 +32,7 @@ public class ParkingRequest implements RequestInterface{
 	        BufferedReader  input = new BufferedReader(new InputStreamReader(System.in));        
 	        System.out.println("\nPlease fill in the information below: ");
 	        
-	        System.out.print("Enter Parking Location(sf, sj, la):  ");
+	        System.out.print("Enter Parking Location(sf, sj, mv, paloalto):  ");
 	        parkingLocation = input.readLine();              
 	        
 	        System.out.print("\nEnter Number of hours you want to book parking spot for:");

@@ -13,18 +13,16 @@ import com.payment.*;
 public class ScheduleRide implements SchedulingStrategy{
 	MySQLDB db;
 	List<String> emails= new ArrayList<String>();
+	
     @Override
     public void doOperation(MySQLDB db){
        this.db= db;
-      // db.scheduleRide();
-        emails= db.scheduleRide();
-        
-  // payment advance after scheduling requests
-      
+       emails= db.scheduleRide();
+
+       // Payment advance after scheduling requests
        int i=0;
        while(i< emails.size()){
        String emailid = emails.get(i);
-       System.out.println("neelam  "+emailid);
        String paymentTY= db.checkPaymentType(emailid);
        PaymentType PT;
        if(paymentTY=="credit"){
@@ -33,7 +31,7 @@ public class ScheduleRide implements SchedulingStrategy{
     	   PT = new Debit();
        }
        RiderPayment PA= new RiderPayment(PT);
-       PA.payment();//call payment according to card no
+       PA.payment(); //call payment according to card no
        i++;
        }
     }   

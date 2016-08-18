@@ -443,16 +443,83 @@ public class MySQLDB {
 	}
    
    
+   
+   
    public boolean checkRequest(String email, MySQLDB db){
 	   boolean val=false;
+	  
+	   try {
+           PreparedStatement pst = conn.prepareStatement("Select * from riderequests where rider_email=?");
+           pst.setString(1, email);
+           ResultSet rs = pst.executeQuery();
+           if (rs.next()) {
+        	   val=true;
+              }
+           }catch (SQLException ex) {
+               Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+           }
 	   
-	   //select 
 	   return val;
    }
    
-   public void CancelRequest(String email,MySQLDB db,String[]loc){}
    
-   //
    
+   
+   public void CancelRequest(String email,MySQLDB db,String[]loc){
+   
+   String location[] = new String[2];
+   location= loc;
+   
+   if (location.length ==1){
+	   String parkingloc= location[0];
+	   //driver 
+   }else{
+	   String starting_location= location[0];
+	   String destination_location= location[1];
+	   
+//	   PreparedStatement pst5 = conn.prepareStatement("delete from riderequests where rider_email = '"+email+"' and starting_location='"+starting_location"' and destination_location='"+destination_location"'");
+//	   pst5.executeUpdate();
+	   //rider
+   }
+   } 
+   
+   
+   
+   public void updateScheduleRide(RideInfo info)
+   {
+       try {
+           // Update the scheduleStatus to completed
+           String updateString = "update scheduleride set scheduleStatus='Completed' where rider_email='" + info.getRiderEmail() + "' and driver_email='" + info.getDriverEmail()+"'";
+           PreparedStatement pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+           
+           //Update the driver status to available
+           updateString = "update members set availablity_status='A' where email='" + info.getDriverEmail() + "' and category='B'";
+           pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+       }
+       catch (SQLException ex) {
+           Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+       }
+   }
+   
+   
+   public void updateScheduleParkng(ParkingInfo info)
+   {
+       try {
+           // Update the scheduleStatus to completed
+           String updateString = "update scheduleparking set scheduleStatus='Completed' where parkingLender_email='" + info.getParkingLenderId() + "' and driver_email='" + info.getDriverId()+"'";
+           PreparedStatement pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+           
+           //Update the driver status to available
+           updateString = "update members set availablity_status='A' where email='" + info.getParkingLenderId() + "' and category='C'";
+           pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+       }
+       catch (SQLException ex) {
+           Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+       }
+   }
   
 }

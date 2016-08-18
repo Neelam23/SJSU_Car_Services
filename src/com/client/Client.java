@@ -173,9 +173,9 @@ public class Client {
                 break;
             case 2:
                 if (Category.equals("A")) {
-                    //reqManager.manageRide(); rules related stuff
+                    reqManager.manageRideCancellation();
                 } else if (Category.equals("B")) {
-                    //reqManager.manageParking();  //rules related stuff
+                    reqManager.manangeParkingCanellation();
                 }
                 break;
             case 3:

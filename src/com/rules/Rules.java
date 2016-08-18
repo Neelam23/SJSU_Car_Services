@@ -17,7 +17,7 @@ public abstract class Rules {
 		loc= userDetails(); 
 		db.CancelRequest(email,db,loc); 
 		}else{
-			System.out.println("No unscheduled request found.  Please contact customer care to cancel scheduled requests");
+			System.out.println("No unscheduled request found.  Please contact customer care to cancel scheduled requests\n");
 		}
 	}
 	

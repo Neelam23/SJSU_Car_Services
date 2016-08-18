@@ -20,35 +20,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Client {
-    
+
     private static MySQLDB db = null;
     private static Scanner scanner = null;
-    
-    private static void connectDB()
-    {
+
+    private static void connectDB() {
         db = new MySQLDB();
         try {
             db.testConnection();
         } catch (ClassNotFoundException e) {
             System.out.println("ClassNotFoundException: " + e.getMessage());
             System.exit(-1);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Failed to connect to database. Please try again later");
             System.exit(-1);
         }
     }
-    
-    
+
     public static void main(String[] args) {
 
         String email;
         String password;
         int selection = 0;
-        
+
         // Connect to database
         connectDB();
-        
+
         // Print banner information
         System.out.println("*********************************************************");
         System.out.println("*********************************************************");
@@ -56,53 +53,47 @@ public class Client {
         System.out.println("*********************************************************");
         System.out.println("*********************************************************");
         System.out.println();
-        
-        while (selection != 4)
-        {
-        // Get user input
-        System.out.println("Please Select from Following options:\n" + "1. Member SignUp" + "\n2. Member SignIn" + "\n3. Admin SignIn" + "\n4. Exit");
 
-        scanner = new Scanner(System.in);
-        selection = scanner.nextInt();
-        switch (selection) 
-        {
-            case 1:
-                registerMember();
-                break;
+        while (selection != 4) {
+            // Get user input
+            System.out.println("Please Select from Following options:\n" + "1. Member SignUp" + "\n2. Member SignIn" + "\n3. Admin SignIn" + "\n4. Exit");
 
-            case 2:
-            	memberSignInOptions();
-                break;
+            scanner = new Scanner(System.in);
+            selection = scanner.nextInt();
+            switch (selection) {
+                case 1:
+                    registerMember();
+                    break;
 
-            case 3:
-                System.out.print("Enter your Email-id:	");
-                email = scanner.next();
-                System.out.print("Enter your Password:	");
-                password = scanner.next();
+                case 2:
+                    memberSignInOptions();
+                    break;
 
-                int val = db.adminSignIn(email, password);
-                if (val == 1) {
-                    handleAdminOptions();
-                }
-                else {
-                    System.out.println("Login Error");
-                }
-                break;
-            case 4:
-                System.out.print("Thank you for using the application.");
-                break;
+                case 3:
+                    System.out.print("Enter your Email-id:	");
+                    email = scanner.next();
+                    System.out.print("Enter your Password:	");
+                    password = scanner.next();
 
-            default:
-                System.out.print("Wrong Choice, please try again");
-                break;
+                    int val = db.adminSignIn(email, password);
+                    if (val == 1) {
+                        handleAdminOptions();
+                    } else {
+                        System.out.println("Login Error");
+                    }
+                    break;
+                case 4:
+                    System.out.print("Thank you for using the application.");
+                    break;
+
+                default:
+                    System.out.print("Wrong Choice, please try again");
+                    break;
             }
         }
     }
-    
- 
-    
-    private static void registerMember()
-    {
+
+    private static void registerMember() {
         System.out.println("\nPlease select one of the following options:\n" + "1. Rider" + "\n2. Driver" + "\n3.Parking Lender");
         int memberType;
         Member memberObj = null;
@@ -128,22 +119,20 @@ public class Client {
         // Sign up member
         try {
             memberObj.signUp();
-        } 
-        catch (SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
             registerMember();
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.exit(-1);
         }
     }
-    
-    private static void memberSignInOptions(){
-    	
-    	System.out.print("Enter your Email-id:	");
+
+    private static void memberSignInOptions() {
+
+        System.out.print("Enter your Email-id:	");
         String email = scanner.next();
         System.out.print("Enter your Password:	");
         String password = scanner.next();
-        
+
         String Category = db.signIn(email, password);
         if (Category.length() != 0) {
             System.out.println("\nPlease select from following option:");
@@ -164,10 +153,10 @@ public class Client {
         switch (selection2) {
             case 1:
                 if (Category.equals("A")) {
-                	System.out.println("Calling manage ride!");
-                    reqManager.manageRide();   
+                    System.out.println("Calling manage ride!");
+                    reqManager.manageRide();
                 } else if (Category.equals("B")) {
-                	System.out.println("Calling manage parking!");
+                    System.out.println("Calling manage parking!");
                     reqManager.manageParking();
                 }
                 break;
@@ -187,19 +176,18 @@ public class Client {
         }
     }
 
-    
-    private static void handleAdminOptions()
-    {
+    private static void handleAdminOptions() {
         int selection = 0;
-        do
-        {
+        do {
             System.out.println("\nPlease Select from following Options");
             System.out.println("1. Start Schedule Ride");
             System.out.println("2. Start Schedule Parking");
             System.out.println("3. Dispatch Ride Request");
             System.out.println("4. Start Parking");
             System.out.println("5. Display members");
-            System.out.println("6. Exit");
+            System.out.println("6. Parking Schedule Report");
+            System.out.println("7. Ride Schedule Report");
+            System.out.println("8. Exit");
 
             selection = scanner.nextInt();
             SchedulingContext schedulingContext;
@@ -234,56 +222,89 @@ public class Client {
                     System.out.println("Member list:");
                     displayMemberList();
                     break;
+
                 case 6:
+                    System.out.println();
+                    displayParkingScheduleReport();
+                    break;
+
+                case 7:
+                    System.out.println();
+                    displayRideScheduleReport();
+                    break;
+
+                case 8:
                     System.out.println();
                     break;
                 default:
                     System.out.print("Wrong Choice, please try again");
                     break;
             }
-        }while (selection != 6);
+        } while (selection != 8);
     }
-    
-    private static void displayMemberList()
-    {
+
+    private static void displayMemberList() {
         Supervisor supervisor = db.getMemberList();
         supervisor.display();
         System.out.println();
     }
-    
-    private static void readRideSchedules(){
-        
+
+    private static void displayRideScheduleReport() {
+        System.out.println("***************************************************************************************************************");
+        System.out.println("*************************************	Ride Schedule Report     ******************************************");
+        System.out.println("***************************************************************************************************************");
+        System.out.println();
+        // System.out.println(driver_email+"   "+parkingLender_email+"   "+parkingLocation+"   "+numHours+"   "+date+"   "+scheduleStatus); 
+        System.out.println("Rider Email  |" + " Driver Email  |" + " Starting Location |" + " Destination |" + "   Date      |" + " Route ID  |" + "  Schedule Status");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+        db.getscheduleRide();
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+
+    }
+
+    private static void displayParkingScheduleReport() {
+       System.out.println("***************************************************************************************************************");
+        System.out.println("*************************************	Parking Schedule Report     *****************************************");
+        System.out.println("***************************************************************************************************************");
+        System.out.println();
+        // System.out.println(driver_email+"   "+parkingLender_email+"   "+parkingLocation+"   "+numHours+"   "+date+"   "+scheduleStatus); 
+        System.out.println("Driver Email  |" + " Parking Lender Email  |" + " Parking Location |" + " Hours |" + "   Date      |" + " Status");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+        db.getscheduleparking();
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+
+    }
+
+    private static void readRideSchedules() {
+
         // Get Ride information from database
         List<RideInfo> rideInfoList = db.readRideSchedule();
-        int i=0, size = rideInfoList.size();
+        int i = 0, size = rideInfoList.size();
         Thread threadPool[] = new Thread[size];
-        while (i < size)
-        {
-           threadPool[i] = new RideDispatch(rideInfoList.get(i), i+1);
-           i++;
+        while (i < size) {
+            threadPool[i] = new RideDispatch(rideInfoList.get(i), i + 1);
+            i++;
         }
-        
-        for ( i= 0; i < size; i++) 
-        {
+
+        for (i = 0; i < size; i++) {
             try {
                 threadPool[i].join(); //todo add catch exception
             } catch (InterruptedException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         i = 0;
-        while (i < size)
-        {
-           db.updateScheduleRide(rideInfoList.get(i));
-           i++;
+        while (i < size) {
+            db.updateScheduleRide(rideInfoList.get(i));
+            i++;
         }
-        
+
         System.out.println();
     }
-    
-    private static void readParkingSchedule(){
-        
+
+    private static void readParkingSchedule() {
+
         // Get parking information from database
         List<ParkingInfo> parkingInfoList = db.readParkingSchedule();
         int i = 0, size = parkingInfoList.size();

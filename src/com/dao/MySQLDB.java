@@ -22,7 +22,7 @@ public class MySQLDB {
     String db = "sys";
     String url = "jdbc:mysql://127.0.0.1:3306/" + db;
     String user = "root";
-    String pass = "123456789";
+    String pass = "Psword@1";
 
     public void testConnection() throws ClassNotFoundException, SQLException {
         try {

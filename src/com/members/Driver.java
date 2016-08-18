@@ -28,7 +28,7 @@ public class Driver extends Member {
         password = input.next();
         System.out.print("Name: ");
         name = input.next();
-        System.out.print("Car Type: ");
+        System.out.println("Please Select from Following Vehicle optons:\n"+"1. Sedan"+"\n2. SUV"+"\n3. Truck"+"\n4. Ferry"+"\n5. Luxury Car");
         carType = input.next();
         System.out.print("Number of seats: ");
         numSeats = input.nextInt();

@@ -294,7 +294,7 @@ public class MySQLDB {
                                pst6.executeUpdate();
                            }
                            else if (parkingSlotsTotal == parkingSlotsBooked){
-                           PreparedStatement pst4 = conn.prepareStatement("update members set availablity_status = 'NA' where email = "+plEmail+"");
+                           PreparedStatement pst4 = conn.prepareStatement("update members set availablity_status = 'NA' where email = '"+plEmail+"'");
                            pst4.executeUpdate();
                            }
                            

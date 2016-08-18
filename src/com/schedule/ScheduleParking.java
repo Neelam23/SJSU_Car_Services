@@ -11,6 +11,7 @@ import java.util.List;
 import com.dao.MySQLDB;
 import com.payment.Credit;
 import com.payment.Debit;
+import com.payment.DriverPayment;
 import com.payment.PaymentType;
 import com.payment.RiderPayment;
 
@@ -34,7 +35,7 @@ public class ScheduleParking implements SchedulingStrategy{
         }else{
      	   PT = new Debit();
         }
-        RiderPayment PA= new RiderPayment(PT);
+        DriverPayment PA= new DriverPayment(PT);
         PA.payment();//call payment according to card no
         i++;
         }

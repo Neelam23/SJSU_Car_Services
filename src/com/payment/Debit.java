@@ -13,13 +13,13 @@ import com.notification.*;
 public class Debit implements PaymentType {
    
 	public void cardPayment(){
-		System.out.println("Rider has been charged with Debit card payment");
-//		String message= "Rider has been charged with Debit card payment";
-//		notify
-//		MemberObserver observer = new MemberObserver();
-//		RideNotification rideNotification = new RideNotification();
-//		rideNotification.addObserver(observer);
-//		rideNotification.setMsg(message);
+	//	System.out.println("Rider has been charged with Debit card payment");
+		String message= "Debit card payment is successful!!";
+	//	notify
+		MemberObserver observer = new MemberObserver();
+		RideNotification rideNotification = new RideNotification();
+		rideNotification.addObserver(observer);
+		rideNotification.setMsg(message);
 	}
 }
 	

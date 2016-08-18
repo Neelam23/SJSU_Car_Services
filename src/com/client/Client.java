@@ -272,30 +272,41 @@ public class Client {
             }
         }
         
+        i = 0;
+        while (i < size)
+        {
+           db.updateScheduleRide(rideInfoList.get(i));
+           i++;
+        }
+        
         System.out.println();
     }
     
     private static void readParkingSchedule(){
         
         // Get parking information from database
-       List<ParkingInfo> parkingInfoList = db.readParkingSchedule();
-        int i=0, size = parkingInfoList.size();
+        List<ParkingInfo> parkingInfoList = db.readParkingSchedule();
+        int i = 0, size = parkingInfoList.size();
         Thread threadPool[] = new Thread[size];
-        while (i < size)
-        {
-           threadPool[i] = new ParkingInfoDispatch(parkingInfoList.get(i), i+1);
-           i++;
+        while (i < size) {
+            threadPool[i] = new ParkingInfoDispatch(parkingInfoList.get(i), i + 1);
+            i++;
         }
-        
-        for ( i= 0; i < size; i++) 
-        {
+
+        for (i = 0; i < size; i++) {
             try {
                 threadPool[i].join(); //todo add catch exception
             } catch (InterruptedException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
+        i = 0;
+        while (i < size) {
+            db.updateScheduleParkng(parkingInfoList.get(i));
+            i++;
+        }
+
         System.out.println();
     }
 }

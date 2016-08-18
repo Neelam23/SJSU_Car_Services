@@ -21,7 +21,7 @@ public class MySQLDB {
     String db = "sys";
     String url = "jdbc:mysql://127.0.0.1:3306/" + db;
     String user = "root";
-    String pass = "Psword@1";
+    String pass = "123456789";
 
     public void testConnection() throws ClassNotFoundException,SQLException {
         try {
@@ -338,6 +338,24 @@ public class MySQLDB {
        return rideInfoList;
    }
    
+   public void updateScheduleRide(RideInfo info)
+   {
+       try {
+           // Update the scheduleStatus to completed
+           String updateString = "update scheduleride set scheduleStatus='Completed' where rider_email='" + info.getRiderEmail() + "' and driver_email='" + info.getDriverEmail()+"'";
+           PreparedStatement pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+           
+           //Update the driver status to available
+           updateString = "update members set availablity_status='A' where email='" + info.getDriverEmail() + "' and category='B'";
+           pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+       }
+       catch (SQLException ex) {
+           Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+       }
+   }
+   
    public List<ParkingInfo> readParkingSchedule() {
 
        List<ParkingInfo> parkingInfoList = new ArrayList<ParkingInfo>();
@@ -360,6 +378,24 @@ public class MySQLDB {
        }
        
        return parkingInfoList;
+   }
+   
+   public void updateScheduleParkng(ParkingInfo info)
+   {
+       try {
+           // Update the scheduleStatus to completed
+           String updateString = "update scheduleparking set scheduleStatus='Completed' where parkingLender_email='" + info.getParkingLenderId() + "' and driver_email='" + info.getDriverId()+"'";
+           PreparedStatement pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+           
+           //Update the driver status to available
+           updateString = "update members set availablity_status='A' where email='" + info.getParkingLenderId() + "' and category='C'";
+           pst = conn.prepareStatement(updateString);
+           pst.executeUpdate();
+       }
+       catch (SQLException ex) {
+           Logger.getLogger(MySQLDB.class.getName()).log(Level.SEVERE, null, ex);
+       }
    }
    
    public Admin getMemberList()

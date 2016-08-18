@@ -28,4 +28,14 @@ public class RideInfo implements RideInformation{
         this.state = s;
     }
     
+    public String getRiderEmail()
+    {
+        return this.riderEmail;
+    }
+    
+    public String getDriverEmail()
+    {
+        return this.driverEmail;
+    }
+    
 }

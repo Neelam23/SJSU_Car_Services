@@ -29,4 +29,15 @@ public class ParkingInfo implements ParkingInformation{
         this.state = s;
     }
     
+    public String getParkingLenderId()
+    {
+        return this.parkingLenderId;
+    }
+    
+    public String getDriverId()
+    {
+        return this.driverId;
+    }
+    
+    
 }

@@ -20,7 +20,7 @@ public class Parking implements ParkingState {
         timeSpent++;       
     }
     public void payment(int id){
-        System.out.println("Ride ID: " + id + ". The parking is in progress and 25% of the total amount has been hold");
+        System.out.println("Parking ID: " + id + ". The parking is in progress and 25% of the total amount has been hold");
     }
     
 }

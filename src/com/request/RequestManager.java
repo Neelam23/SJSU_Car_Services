@@ -34,9 +34,10 @@ public class RequestManager {
     		line.setRideType();
     		line.processRequest();
     		
-    	}else
+    	}else{
     		System.out.println("This is simple ride request");
     		rideReq.processRequest();
+        }
     }
     
     public void manageParking(){
